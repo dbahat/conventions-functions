@@ -1,0 +1,19 @@
+### send push
+POST https://us-central1-sff-conventions.cloudfunctions.net/sendPush HTTP/1.1
+content-type: application/json
+
+{
+  "topic": "icon2024_test",
+  "body": "אייקון נפתח לקהל, מחכים לכולכם.ן!",
+  "id": "64"
+}
+
+### send push v2
+POST https://us-central1-sff-conventions.cloudfunctions.net/sendPushV2 HTTP/1.1
+content-type: application/json
+
+{
+  "topic": "icon2024_test",
+  "body": "אייקון נפתח לקהל, מחכים לכולכם.ן!",
+  "id": "64"
+}
