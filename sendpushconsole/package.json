@@ -1,0 +1,5 @@
+{
+  "name": "sendPushConsole",
+  "description": "Send push notifications console",
+  "private": true
+}

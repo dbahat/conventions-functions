@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Form</title>
+    <style>
+        body {
+          font-family: 'Segoe UI', Arial, sans-serif;
+          background: linear-gradient(120deg, #f8fafc 0%, #e0e7ff 100%);
+          min-height: 100vh;
+          margin: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          direction: rtl;
+        }
+        .page-title {
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          width: 100%;
+          background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+          padding: 1.2rem 0 1rem 0;
+          box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+          z-index: 10;
+        }
+        .page-title h1 {
+          margin: 0;
+          color: #fff;
+          font-size: 2rem;
+          font-family: 'Segoe UI', Arial, sans-serif;
+          text-align: center;
+          letter-spacing: 1px;
+          font-weight: 700;
+          text-shadow: 0 2px 8px rgba(99,102,241,0.18);
+        }
+        #messageForm {
+          background: #fff;
+          padding: 2.5rem 2.5rem;
+          border-radius: 18px;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          min-width: 340px;
+          max-width: 480px;
+          width: 100%;
+          text-align: right;
+          margin-top: 6rem;
+          box-sizing: border-box;
+        }
+        label {
+          font-weight: 500;
+          margin-bottom: 0.3rem;
+          color: #374151;
+          font-size: 1.08rem;
+        }
+        input[type="text"], select, textarea#message {
+          padding: 0.7rem;
+          border-radius: 8px;
+          border: 1px solid #cbd5e1;
+          font-size: 1.08rem;
+          background: #f1f5f9;
+          transition: border-color 0.2s;
+          text-align: right;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        textarea#message {
+          min-width: 0;
+          min-height: 8em;
+          max-height: 40vh;
+          resize: vertical;
+          font-size: 1.08rem;
+        }
+        input[type="text"]:focus, select:focus, textarea#message:focus {
+          border-color: #6366f1;
+          outline: none;
+        }
+        button {
+          background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          padding: 0.9rem;
+          font-size: 1.15rem;
+          font-weight: 600;
+          cursor: pointer;
+          box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+          transition: background 0.2s;
+          text-align: center;
+          display: block;
+          margin: 0.5rem auto 0 auto;
+          width: 60%;
+          max-width: 220px;
+        }
+        button:hover {
+          background: linear-gradient(90deg, #60a5fa 0%, #6366f1 100%);
+        }
+        @media (max-width: 600px) {
+          .page-title h1 {
+            font-size: 1.2rem;
+            padding: 0 0.5rem;
+          }
+          #messageForm {
+            padding: 1rem 0.5rem;
+            margin-top: 4rem;
+            border-radius: 10px;
+            min-width: 0;
+            max-width: 98vw;
+          }
+          label {
+            font-size: 0.95rem;
+          }
+          textarea#message {
+            min-height: 6em;
+            font-size: 1rem;
+          }
+          button {
+            font-size: 1rem;
+            padding: 0.7rem;
+          }
+        }
+    </style>
+</head>
+<body>
+<div class="page-title">
+    <h1>אנימאטסורי 2025 - ממשק לשליחת הודעות לאפליקציה</h1>
+</div>
+<div id="login-section" style="text-align:center; margin-top:8rem;">
+    <div id="g_id_onload"
+         data-client_id="458203975509-m13qm03dljkbob9u1k7bq9vgkc0kohsq.apps.googleusercontent.com"
+         data-callback="onGoogleSignIn"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="right">
+    </div>
+</div>
+<form id="messageForm" style="display:none;">
+    <label for="message">הכנס הודעה לשליחה בפוש לאפליקציה:</label>
+    <textarea id="message" name="message" required rows="4"></textarea>
+    <label for="category">בחר קטגוריה:</label>
+    <select id="category" name="category" required>
+        <option value="test">בדיקות</option>
+        <option value="general">כללי</option>
+        <option value="events">אירועים</option>
+        <option value="cosplay">קוספליי</option>
+        <option value="emergency">חירום</option>
+    </select>
+    <button type="submit">שלח</button>
+</form>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+    let googleToken = null;
+    function onGoogleSignIn(response) {
+      googleToken = response.credential;
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('messageForm').style.display = 'flex';
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('messageForm');
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const body = document.getElementById('message').value;
+        const topic = "animatsuri2025_" + document.getElementById('category').value;
+        const topicTitle = document.getElementById('category').selectedOptions[0].text;
+        const id = '1';
+        const bodyJson = JSON.stringify({ body, topic, id });
+        if (!confirm('ההודעה תישלח לקטגורית ' + topicTitle + '. האם אתה בטוח שברצונך לשלוח את ההודעה?')) {
+          return;
+        }
+        try {
+          const response = await fetch('https://us-central1-starlit-brand-95018.cloudfunctions.net/sendPush', {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+              'authorization': googleToken ? `Bearer ${googleToken}` : ''
+            },
+            body: bodyJson
+          });
+          if (response.ok) {
+            alert('ההודעה נשלחה בהצלחה!');
+            form.reset();
+          } else {
+            alert('שליחת ההודעה נכשלה.');
+          }
+        } catch (err) {
+          alert(err);
+        }
+      });
+    });
+</script>
+</body>
+</html>

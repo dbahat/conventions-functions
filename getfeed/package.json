@@ -1,0 +1,5 @@
+{
+  "name": "getFeed",
+  "description": "Get facebook feed",
+  "private": true
+}
