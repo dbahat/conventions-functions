@@ -71,7 +71,8 @@ async function verifyAuthentication(req) {
 
     const authorizedUsers = [
         "tal.sapan1@gmail.com",
-        "dbahat@live.com"
+        "dbahat@live.com",
+        "marketing@animatsuri.org.il"
     ];
 
     for (let i = 0; i < authorizedUsers.length; ++i) {
